@@ -1,0 +1,23 @@
+{
+    "name": "ouun/kirki-module-fonts_upload",
+    "type": "library",
+    "description": "Easy custom fonts file upload and CSS injection with Kirki WordPress plugin.",
+    "keywords": ["wordpress","customizer","framework"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philipp Wellmer",
+            "email": "philipp@wellmer.com",
+            "homepage": "https://ouun.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "autoload"    : {
+		"psr-4" : {
+			"Kirki\\Module\\" : "src/"
+        }
+    }
+}
