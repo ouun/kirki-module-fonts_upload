@@ -96,7 +96,7 @@ class FontUploads {
 	public function add_uploaded_fonts_to_standard_stack( $fonts ) {
 
 		foreach ( self::get_uploaded_fonts() as $add_font ) {
-			$fonts[ $add_font->post_name ] = array(
+			$fonts[ $add_font->post_title ] = array(
 				'label' => $add_font->post_title,
 				'stack' => $add_font->post_title,
 			);
@@ -110,13 +110,13 @@ class FontUploads {
 	 */
 	public function get_uploaded_fonts_css_output() {
 		foreach ( self::get_uploaded_fonts() as $add_font ) {
-			$family = $add_font->post_name;
+			$family = $add_font->post_title;
 			$url    = wp_get_attachment_url( $add_font->ID );
 			// $path   = get_attached_file( $add_font->ID );
 			$type = wp_check_filetype( $url );
 
 			if ( $url ) {
-				echo wp_strip_all_tags( "@font-face{font-display:swap;font-family:\"{$family}\";src:url(\"{$url}\");format(\"{$type['ext']}\");}" );
+				echo wp_strip_all_tags( "@font-face{font-display:auto;font-family:\"{$family}\";src:url(\"{$url}\");format(\"{$type['ext']}\");}" );
 			}
 		}
 	}
