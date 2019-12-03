@@ -56,16 +56,28 @@ class FontUploads {
 	 * @return array \WP_Posts objects of uploaded fonts
 	 */
 	public function get_uploaded_fonts() {
-		$args = array(
+		// Get all uploaded fonts
+		$attachments = new \WP_Query( array(
 			'post_type'      => 'attachment',
 			'posts_per_page' => 10,
-			'post_mime_type' => apply_filters( 'kirki_upload_allowed_fonts_mimes', $this->allowed_mimes ),
 			'post_status'    => array( 'publish', 'inherit' ),
-		);
+			'post_mime_type' => apply_filters( 'kirki_upload_fonts_allowed_mimes', $this->allowed_mimes ),
+		) );
 
-		$attachments = new \WP_Query( $args );
+		$fonts = [];
 
-		return $attachments->posts;
+		// Build a custom fonts array
+		foreach ( $attachments->posts as $font ) {
+			if ( $url = wp_get_attachment_url( $font->ID ) ) {
+				$fonts[ $font->post_name ] = [
+					'name' => $font->post_title,
+					'type' => wp_check_filetype( $url )['ext'],
+					'url'  => $url,
+				];
+			}
+		}
+
+		return apply_filters( 'kirki_upload_fonts_available', $fonts );
 	}
 
 	/**
@@ -76,7 +88,7 @@ class FontUploads {
 	 * @return mixed
 	 */
 	public function add_fonts_to_mimes( $mimes ) {
-		$allowed_mimes = apply_filters( 'kirki_upload_allowed_fonts_mimes', $this->allowed_mimes );
+		$allowed_mimes = apply_filters( 'kirki_upload_fonts_allowed_mimes', $this->allowed_mimes );
 
 		foreach ( $allowed_mimes as $ext => $mime ) {
 			$mimes[ $ext ] = $mime;
@@ -95,10 +107,10 @@ class FontUploads {
 	 */
 	public function add_uploaded_fonts_to_standard_stack( $fonts ) {
 
-		foreach ( self::get_uploaded_fonts() as $add_font ) {
-			$fonts[ $add_font->post_title ] = array(
-				'label' => $add_font->post_title,
-				'stack' => $add_font->post_title,
+		foreach ( self::get_uploaded_fonts() as $name => $font ) {
+			$fonts[ $font['name'] ] = array(
+				'label' => $font['name'],
+				'stack' => $font['name'],
 			);
 		}
 
@@ -109,15 +121,8 @@ class FontUploads {
 	 * Generate & echo CSS for dynamic Kirki output
 	 */
 	public function get_uploaded_fonts_css_output() {
-		foreach ( self::get_uploaded_fonts() as $add_font ) {
-			$family = $add_font->post_title;
-			$url    = wp_get_attachment_url( $add_font->ID );
-			// $path   = get_attached_file( $add_font->ID );
-			$type = wp_check_filetype( $url );
-
-			if ( $url ) {
-				echo wp_strip_all_tags( "@font-face{font-display:auto;font-family:\"{$family}\";src:url(\"{$url}\");format(\"{$type['ext']}\");}" );
-			}
+		foreach ( self::get_uploaded_fonts() as $name => $font ) {
+			echo wp_strip_all_tags( "@font-face{font-display:auto;font-family:\"{$font['name']}\";src:url(\"{$font['url']}\");format(\"{$font['type']}\");}" );
 		}
 	}
 

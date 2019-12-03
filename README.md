@@ -11,9 +11,25 @@ Additionally the `@font-face` CSS is added to Kirki CSS Module output.
 By default the upload of  `.woff` and `.woff2` file is supported. You can use a filter to add other font mimes:
 
 ````
-add_filter( kirki_upload_allowed_fonts_mimes', function( $mimes ) {
+add_filter( 'kirki_upload_fonts_allowed_mimes', function( $mimes ) {
     return array_merge( $mimes, array(
         'ttf' => 'application/font-ttf'
     ) );
 });
-```
+````
+
+## Additional Resources
+You can add additional fonts (e.g. from your theme folder) by using the filter `kirki_upload_fonts_available`:
+
+````
+add_filter( 'kirki_upload_fonts_available', function( $fonts ) {
+    return array_merge( $fonts, array(
+        'my_font_name' => array(
+            'name' => 'My Font Name,
+            'type' => 'woff',
+            'url'  => 'http://example.com/my_font.woff',
+        }
+    ) );
+});
+````
+
