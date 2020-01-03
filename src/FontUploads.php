@@ -72,7 +72,7 @@ class FontUploads {
 				$fonts[ $font->post_name ] = [
 					'name' => $font->post_title,
 					'type' => wp_check_filetype( $url )['ext'],
-					'url'  => $url,
+					'url'  => str_replace( home_url(), '', $url ),
 				];
 			}
 		}
