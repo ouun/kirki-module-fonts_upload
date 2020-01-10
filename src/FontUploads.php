@@ -122,7 +122,7 @@ class FontUploads {
 	 */
 	public function get_uploaded_fonts_css_output() {
 		foreach ( self::get_uploaded_fonts() as $name => $font ) {
-			echo wp_strip_all_tags( "@font-face{font-display:auto;font-family:\"{$font['name']}\";src:url(\"{$font['url']}\");format(\"{$font['type']}\");}" );
+			echo wp_strip_all_tags( "@font-face{font-display:swap;font-family:\"{$font['name']}\";src:url(\"{$font['url']}\");format(\"{$font['type']}\");}" );
 		}
 	}
 
