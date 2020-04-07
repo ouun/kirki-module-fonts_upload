@@ -1,7 +1,7 @@
 {
     "name": "ouun/kirki-module-fonts_upload",
     "type": "library",
-    "description": "Easy custom fonts file upload and CSS injection with Kirki WordPress plugin.",
+    "description": "Easy custom fonts upload and CSS injection with Kirki WordPress plugin.",
     "keywords": ["wordpress","customizer","framework"],
     "license": "MIT",
     "authors": [

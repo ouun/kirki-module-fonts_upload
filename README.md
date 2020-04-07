@@ -1,5 +1,5 @@
 # Kirki Font Uploads
-This module allows uploading (woff, otf) fonts via the regular WP Media Upload.
+This module allows uploading fonts (.woff, .woff2) via the regular WP Media Upload.
 Simply upload the font and it will be available in Typography Fields as Standard Font. 
 Additionally the `@font-face` CSS is added to Kirki CSS Module output.
 
